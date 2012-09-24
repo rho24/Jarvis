@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jarvis", "Jarvis\Jarvis.csproj", "{3C874698-CC95-4E11-AF41-592302EB9656}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jarvis.Client", "Jarvis.Client\Jarvis.Client.csproj", "{05BF9D09-D57F-4861-8107-06CA4F55A298}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{3C874698-CC95-4E11-AF41-592302EB9656}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C874698-CC95-4E11-AF41-592302EB9656}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C874698-CC95-4E11-AF41-592302EB9656}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05BF9D09-D57F-4861-8107-06CA4F55A298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05BF9D09-D57F-4861-8107-06CA4F55A298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05BF9D09-D57F-4861-8107-06CA4F55A298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05BF9D09-D57F-4861-8107-06CA4F55A298}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
