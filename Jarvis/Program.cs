@@ -1,15 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jarvis
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
-        {
+        private static void Main(string[] args) {
+            string input;
+            while ((input = Console.ReadLine()) != "") {
+                try {
+                    var cmdStarter = new ProcessStarter(input);
+                    cmdStarter.Execute();
+                }
+                catch (Exception ex) {
+                    Console.WriteLine("Exception: {0}", ex);
+                }
+            }
         }
     }
 }
