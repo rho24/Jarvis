@@ -1,0 +1,24 @@
+﻿<Window x:Class="Jarvis.Client.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cal="http://www.caliburnproject.org">
+    <DockPanel VerticalAlignment="Top" LastChildFill="True">
+        <TextBox DockPanel.Dock="Top" x:Name="Text">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="KeyUp">
+                    <cal:ActionMessage MethodName="ValueChanged">
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
+        <ScrollViewer>
+            <ListBox x:Name="Results">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
