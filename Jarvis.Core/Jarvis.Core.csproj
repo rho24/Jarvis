@@ -119,11 +119,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectorySource.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FileItem.cs" />
+    <Compile Include="IItem.cs" />
     <Compile Include="IJarvisService.cs" />
+    <Compile Include="IJarvisServiceSettings.cs" />
+    <Compile Include="IndexedDirectory.cs" />
     <Compile Include="IndexedFile.cs" />
     <Compile Include="IndexManager.cs" />
+    <Compile Include="ISource.cs" />
+    <Compile Include="ItemsExtensions.cs" />
     <Compile Include="JarvisService.cs" />
+    <Compile Include="JarvisServiceSettings.cs" />
     <Compile Include="ProcessStarter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -131,7 +139,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Raven.Studio.xap" />
+    <Content Include="Raven.Studio.xap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

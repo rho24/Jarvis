@@ -48,7 +48,7 @@ namespace Jarvis.Client
         }
 
         private void SelectResults(string text) {
-            Task.Factory.StartNew(() => _dir.EnumerateFiles(text + "*"))
+            Task.Factory.StartNew(() => _jarvis.Items().FuzzySearch(text))
                 .ContinueWith(files => { Results = files.Result.Select(f => f.Name); },
                               TaskScheduler.FromCurrentSynchronizationContext());
         }

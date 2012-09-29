@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Autofac;
@@ -20,16 +21,25 @@ namespace Jarvis.Core
             Initialize();
         }
 
+        public IEnumerable<IItem> Items() {
+            return Sources.SelectMany(s => s.GetItems());
+        }
+
+        public IEnumerable<ISource> Sources { get; private set; }
+
         private void Initialize() {
             FirstTimeSetup();
 
             using (var session = _documentStore.OpenSession()) {
                 Settings = session.Query<JarvisServiceSettings>()
                     .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).Single();
+                
+                Sources = session.Query<IndexedDirectory>()
+                    .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite())
+                    .Fetch()
+                    .Select(d => new DirectorySource(d.Path))
+                    .Fetch();
             }
-
-            var indexManager = new IndexManager(_documentStore);
-            indexManager.Index();
         }
 
         private void FirstTimeSetup() {
@@ -66,20 +76,5 @@ namespace Jarvis.Core
 
             return builder.Build();
         }
-    }
-
-    public class IndexedDirectory
-    {
-        public string Path { get; set; }
-    }
-
-    public interface IJarvisServiceSettings
-    {
-        DateTime Created { get; }
-    }
-
-    public class JarvisServiceSettings : IJarvisServiceSettings
-    {
-        public DateTime Created { get; set; }
     }
 }
