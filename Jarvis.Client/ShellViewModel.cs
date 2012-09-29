@@ -4,21 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Raven.Client;
+using Jarvis.Core;
 
 namespace Jarvis.Client
 {
     public class ShellViewModel : PropertyChangedBase, IShell
     {
-        private readonly IDocumentStore _store;
         private readonly DirectoryInfo _dir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+        private readonly IJarvisService _jarvis;
         private string _previousText;
         private IEnumerable<string> _results;
         private string _text;
-        public ShellViewModel(IDocumentStore store) {
-            _store = store;
-            SelectResults("");
-        }
 
         public string Text {
             get { return _text; }
@@ -38,8 +34,12 @@ namespace Jarvis.Client
             }
         }
 
-        public void ValueChanged()
-        {
+        public ShellViewModel(IJarvisService jarvis) {
+            _jarvis = jarvis;
+            SelectResults("");
+        }
+
+        public void ValueChanged() {
             var text = Text;
             if (text == _previousText)
                 return;
@@ -48,7 +48,6 @@ namespace Jarvis.Client
         }
 
         private void SelectResults(string text) {
-
             Task.Factory.StartNew(() => _dir.EnumerateFiles(text + "*"))
                 .ContinueWith(files => { Results = files.Result.Select(f => f.Name); },
                               TaskScheduler.FromCurrentSynchronizationContext());

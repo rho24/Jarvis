@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Caliburn.Micro.Autofac;
-using Raven.Client;
-using Raven.Client.Embedded;
+using Jarvis.Core;
 
 namespace Jarvis.Client
 {
@@ -18,14 +17,7 @@ namespace Jarvis.Client
         }
 
         protected override void ConfigureContainer(ContainerBuilder builder) {
-            builder.Register(c => new EmbeddableDocumentStore {
-                DataDirectory = "Data",
-                UseEmbeddedHttpServer = true
-            }.Initialize()).As<IDocumentStore>().SingleInstance();
-
-            builder.Register(c => c.Resolve<IDocumentStore>().OpenSession())
-                .As<IDocumentSession>()
-                .OnRelease(d => d.Dispose());
+            builder.RegisterType<JarvisService>().As<IJarvisService>().SingleInstance();
         }
     }
 }

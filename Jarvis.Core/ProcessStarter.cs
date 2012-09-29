@@ -1,8 +1,8 @@
 using System.Diagnostics;
 
-namespace Jarvis
+namespace Jarvis.Core
 {
-    internal class ProcessStarter
+    public class ProcessStarter
     {
         private readonly string _input;
 
