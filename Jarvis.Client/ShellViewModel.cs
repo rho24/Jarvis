@@ -4,16 +4,19 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Raven.Client;
 
 namespace Jarvis.Client
 {
     public class ShellViewModel : PropertyChangedBase, IShell
     {
+        private readonly IDocumentStore _store;
         private readonly DirectoryInfo _dir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
         private string _previousText;
         private IEnumerable<string> _results;
         private string _text;
-        public ShellViewModel() {
+        public ShellViewModel(IDocumentStore store) {
+            _store = store;
             SelectResults("");
         }
 
