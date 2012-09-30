@@ -23,7 +23,7 @@ namespace Jarvis.Core
             if (!_dir.Exists)
                 return Enumerable.Empty<IItem>();
 
-            return _dir.EnumerateFiles("*.lnk", SearchOption.AllDirectories).Select(f => new FileItem {Name = Path.GetFileNameWithoutExtension(f.Name)});
+            return _dir.EnumerateFiles("*.lnk", SearchOption.AllDirectories).Select(f => new FileItem {Name = Path.GetFileNameWithoutExtension(f.Name), FullPath = f.FullName});
         }
     }
 }

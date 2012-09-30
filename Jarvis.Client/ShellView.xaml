@@ -1,21 +1,40 @@
 ﻿<Window x:Class="Jarvis.Client.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cal="http://www.caliburnproject.org">
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cal="http://www.caliburnproject.org"
+        xmlns:local="clr-namespace:Jarvis.Client"
+        FocusManager.FocusedElement="{Binding ElementName=UserInput}">
     <DockPanel VerticalAlignment="Top" LastChildFill="True">
-        <TextBox DockPanel.Dock="Top" x:Name="Text">
+        <TextBox DockPanel.Dock="Top" x:Name="UserInput">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="KeyUp">
-                    <cal:ActionMessage MethodName="ValueChanged">
-                    </cal:ActionMessage>
+                    <cal:ActionMessage MethodName="KeyUp"></cal:ActionMessage>
                 </i:EventTrigger>
+                <local:InputBindingTrigger>
+                    <local:InputBindingTrigger.InputBinding>
+                        <KeyBinding Key="Up" />
+                    </local:InputBindingTrigger.InputBinding>
+                    <cal:ActionMessage MethodName="UpInput" />
+                </local:InputBindingTrigger>
+                <local:InputBindingTrigger>
+                    <local:InputBindingTrigger.InputBinding>
+                        <KeyBinding Key="Down" />
+                    </local:InputBindingTrigger.InputBinding>
+                    <cal:ActionMessage MethodName="DownInput" />
+                </local:InputBindingTrigger>
+                <local:InputBindingTrigger>
+                    <local:InputBindingTrigger.InputBinding>
+                        <KeyBinding Key="Enter" />
+                    </local:InputBindingTrigger.InputBinding>
+                    <cal:ActionMessage MethodName="EnterInput" />
+                </local:InputBindingTrigger>
             </i:Interaction.Triggers>
         </TextBox>
         <ScrollViewer>
-            <ListBox x:Name="Results">
+            <ListBox x:Name="Results" SelectedIndex="{Binding ResultsSelectedInput}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" />
+                        <TextBlock Text="{Binding Name}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

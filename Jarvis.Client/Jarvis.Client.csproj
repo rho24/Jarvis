@@ -136,6 +136,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GlobalInputBindingTrigger.cs" />
+    <Compile Include="InputBindingTrigger.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
