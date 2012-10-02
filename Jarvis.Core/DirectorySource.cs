@@ -19,11 +19,14 @@ namespace Jarvis.Core
             get { return "Directory: {0}".Fmt(_path); }
         }
 
-        public IEnumerable<IItem> GetItems() {
+        public IEnumerable<IItem> GetItems(string term) {
             if (!_dir.Exists)
                 return Enumerable.Empty<IItem>();
 
-            return _dir.EnumerateFiles("*.lnk", SearchOption.AllDirectories).Select(f => new FileItem {Name = Path.GetFileNameWithoutExtension(f.Name), FullPath = f.FullName});
+            return
+                _dir.EnumerateFiles("*.lnk", SearchOption.AllDirectories)
+                    .Select(f => new FileItem {Name = Path.GetFileNameWithoutExtension(f.Name), FullPath = f.FullName})
+                    .Where(f => f.Name.ToLowerInvariant().Contains(term.ToLowerInvariant()));
         }
     }
 }

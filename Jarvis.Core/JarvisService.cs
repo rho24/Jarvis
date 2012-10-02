@@ -21,8 +21,8 @@ namespace Jarvis.Core
             Initialize();
         }
 
-        public IEnumerable<IItem> Items() {
-            return Sources.SelectMany(s => s.GetItems());
+        public IEnumerable<IItem> Items(string term) {
+            return Sources.SelectMany(s => s.GetItems(term));
         }
 
         public IEnumerable<ISource> Sources { get; private set; }
@@ -33,11 +33,11 @@ namespace Jarvis.Core
             using (var session = _documentStore.OpenSession()) {
                 Settings = session.Query<JarvisServiceSettings>()
                     .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).Single();
-                
+
                 Sources = session.Query<IndexedDirectory>()
                     .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite())
                     .Fetch()
-                    .Select(d => new DirectorySource(d.Path))
+                    .Select(d => _container.Resolve<IndexedDirectorySource>(new NamedParameter("path", d.Path)))
                     .Fetch();
             }
         }
@@ -73,6 +73,10 @@ namespace Jarvis.Core
             builder.Register(c => c.Resolve<IDocumentStore>().OpenSession())
                 .As<IDocumentSession>()
                 .OnRelease(d => d.Dispose());
+
+            builder.RegisterType<SynchronousScheduler>().As<IScheduler>().SingleInstance();
+
+            builder.RegisterType<IndexedDirectorySource>().AsSelf();
 
             return builder.Build();
         }

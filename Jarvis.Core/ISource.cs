@@ -5,6 +5,6 @@ namespace Jarvis.Core
     public interface ISource
     {
         string Description { get; }
-        IEnumerable<IItem> GetItems();
+        IEnumerable<IItem> GetItems(string term);
     }
 }
