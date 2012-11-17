@@ -27,6 +27,12 @@
                 </local:InputBindingTrigger>
                 <local:InputBindingTrigger>
                     <local:InputBindingTrigger.InputBinding>
+                        <KeyBinding Key="Q" Modifiers="Control" />
+                    </local:InputBindingTrigger.InputBinding>
+                    <cal:ActionMessage MethodName="Close" />
+                </local:InputBindingTrigger>
+                <local:InputBindingTrigger>
+                    <local:InputBindingTrigger.InputBinding>
                         <KeyBinding Key="Down" />
                     </local:InputBindingTrigger.InputBinding>
                     <cal:ActionMessage MethodName="DownInput" />

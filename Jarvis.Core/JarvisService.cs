@@ -22,7 +22,7 @@ namespace Jarvis.Core
         }
 
         public IEnumerable<IItem> Items(string term) {
-            return Sources.SelectMany(s => s.GetItems(term));
+            return Sources.SelectMany(s => s.GetItems(term)).Fetch();
         }
 
         public IEnumerable<ISource> Sources { get; private set; }

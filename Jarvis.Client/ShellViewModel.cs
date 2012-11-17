@@ -10,12 +10,14 @@ using System.Windows.Forms;
 using Caliburn.Micro;
 using Jarvis.Core;
 using ManagedWinapi;
+using Application = System.Windows.Application;
 
 namespace Jarvis.Client
 {
     public class ShellViewModel : PropertyChangedBase, IShell
     {
         private readonly IJarvisService _jarvis;
+        private readonly Application _application;
         private IEnumerable<IItem> _results;
         private int _resultsSelectedInput;
         private string _text;
@@ -57,8 +59,9 @@ namespace Jarvis.Client
             }
         }
 
-        public ShellViewModel(IJarvisService jarvis) {
+        public ShellViewModel(IJarvisService jarvis, Application application) {
             _jarvis = jarvis;
+            _application = application;
 
             InitialiseSearch();
 
@@ -78,6 +81,10 @@ namespace Jarvis.Client
             WinState = WindowState.Minimized;
         }
 
+        public void Close() {
+            _application.MainWindow.Close();
+        }
+
         public void ToggleVisibility() {
             WinState = WinState == WindowState.Normal ? WindowState.Minimized : WindowState.Normal;
         }
@@ -89,7 +96,7 @@ namespace Jarvis.Client
                       .DistinctUntilChanged()
                       .StartWith("")
                       .ObserveOn(TaskPoolScheduler.Default)
-                      .Select(s => _jarvis.Items(s).Fetch())
+                      .Select(s => _jarvis.Items(s))
                       .Subscribe(r => Results = r);
         }
 

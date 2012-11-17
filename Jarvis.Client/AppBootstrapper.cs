@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Autofac;
 using Caliburn.Micro.Autofac;
 using Jarvis.Core;
+using Application = System.Windows.Application;
 
 namespace Jarvis.Client
 {
@@ -22,6 +23,7 @@ namespace Jarvis.Client
 
         protected override void ConfigureContainer(ContainerBuilder builder) {
             builder.RegisterType<JarvisService>().As<IJarvisService>().SingleInstance();
+            builder.RegisterInstance(this.Application).As<Application>();
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e) {
