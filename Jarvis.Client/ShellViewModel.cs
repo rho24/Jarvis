@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -45,7 +46,7 @@ namespace Jarvis.Client
 
         public ShellViewModel(IJarvisService jarvis) {
             _jarvis = jarvis;
-
+            
             Observable.FromEventPattern<PropertyChangedEventArgs>(this, "PropertyChanged")
                 .Where(e => e.EventArgs.PropertyName == "UserInput")
                 .Select(e => UserInput)
@@ -71,6 +72,10 @@ namespace Jarvis.Client
 
             var executer = new ProcessStarter(selectedFile.FullPath);
             executer.Execute();
+        }
+
+        public void OpenDbStudio() {
+            Process.Start(_jarvis.StudioUrl);
         }
     }
 }

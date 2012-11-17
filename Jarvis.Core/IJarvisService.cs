@@ -6,5 +6,6 @@ namespace Jarvis.Core
     {
         IEnumerable<IItem> Items(string term);
         IEnumerable<ISource> Sources { get; }
+        string StudioUrl { get; }
     }
 }

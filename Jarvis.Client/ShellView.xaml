@@ -27,6 +27,9 @@
                 </local:InputBindingTrigger>
             </i:Interaction.Triggers>
         </TextBox>
+        <Button DockPanel.Dock="Bottom" x:Name="OpenDbStudio">
+            Raven Studio
+        </Button>
         <ScrollViewer>
             <ListBox x:Name="Results" SelectedIndex="{Binding ResultsSelectedInput}">
                 <ListBox.ItemTemplate>

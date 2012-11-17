@@ -26,6 +26,7 @@ namespace Jarvis.Core
         }
 
         public IEnumerable<ISource> Sources { get; private set; }
+        public string StudioUrl { get { return (_documentStore as EmbeddableDocumentStore).HttpServer.Configuration.ServerUrl; } }
 
         private void Initialize() {
             FirstTimeSetup();
