@@ -4,7 +4,12 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cal="http://www.caliburnproject.org"
         xmlns:local="clr-namespace:Jarvis.Client"
         FocusManager.FocusedElement="{Binding ElementName=UserInput}"
-        WindowState="{Binding Path=WinState}">
+        WindowState="{Binding Path=WinState}"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Height="270"
+        Width="345">
     <DockPanel VerticalAlignment="Top" LastChildFill="True">
         <TextBox DockPanel.Dock="Top" x:Name="UserInput">
             <i:Interaction.Triggers>
