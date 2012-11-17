@@ -21,7 +21,7 @@ namespace Jarvis.Client
         private IEnumerable<IItem> _results;
         private int _resultsSelectedInput;
         private string _text;
-        private WindowState _winState = WindowState.Normal;
+        private WindowState _winState = WindowState.Minimized;
 
         public string UserInput {
             get { return _text; }
