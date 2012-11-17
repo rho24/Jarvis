@@ -7,9 +7,6 @@
     <DockPanel VerticalAlignment="Top" LastChildFill="True">
         <TextBox DockPanel.Dock="Top" x:Name="UserInput">
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="KeyUp">
-                    <cal:ActionMessage MethodName="KeyUp"></cal:ActionMessage>
-                </i:EventTrigger>
                 <local:InputBindingTrigger>
                     <local:InputBindingTrigger.InputBinding>
                         <KeyBinding Key="Up" />

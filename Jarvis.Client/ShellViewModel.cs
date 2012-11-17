@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using Caliburn.Micro;
 using Jarvis.Core;
 
@@ -10,7 +12,6 @@ namespace Jarvis.Client
     public class ShellViewModel : PropertyChangedBase, IShell
     {
         private readonly IJarvisService _jarvis;
-        private string _previousText;
         private IEnumerable<IItem> _results;
         private int _resultsSelectedInput;
         private string _text;
@@ -44,25 +45,15 @@ namespace Jarvis.Client
 
         public ShellViewModel(IJarvisService jarvis) {
             _jarvis = jarvis;
-            SelectResults("");
-        }
 
-        public void KeyUp() {
-            ValueChanged();
-        }
-
-        public void ValueChanged() {
-            var text = UserInput;
-            if (text == _previousText)
-                return;
-            _previousText = text;
-            SelectResults(text);
-        }
-
-        private void SelectResults(string text) {
-            Task.Factory.StartNew(() => _jarvis.Items(text))
-                .ContinueWith(files => { Results = files.Result; },
-                              TaskScheduler.FromCurrentSynchronizationContext());
+            Observable.FromEventPattern<PropertyChangedEventArgs>(this, "PropertyChanged")
+                .Where(e => e.EventArgs.PropertyName == "UserInput")
+                .Select(e => UserInput)
+                .DistinctUntilChanged()
+                .StartWith("")
+                .ObserveOn(TaskPoolScheduler.Default)
+                .Select(s => _jarvis.Items(s).Fetch())
+                .Subscribe(r => Results = r);
         }
 
         public void UpInput() {
