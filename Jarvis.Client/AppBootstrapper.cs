@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Reactive.Linq;
+using System.Drawing;
+using System.Windows;
 using System.Windows.Forms;
 using Autofac;
 using Caliburn.Micro.Autofac;
 using Jarvis.Core;
-using ManagedWinapi;
 
 namespace Jarvis.Client
 {
@@ -24,8 +24,13 @@ namespace Jarvis.Client
             builder.RegisterType<JarvisService>().As<IJarvisService>().SingleInstance();
         }
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e) {
+        protected override void OnStartup(object sender, StartupEventArgs e) {
+            var icon = new NotifyIcon {Text = "Jarvis", Visible = true, Icon = new Icon("SysTray.ico"),ContextMenu = new ContextMenu(new[]{new MenuItem("Close", CloseApp)})};
             base.OnStartup(sender, e);
+        }
+
+        public void CloseApp(object sender, EventArgs eventArgs) {
+            this.Application.MainWindow.Close();
         }
     }
 }
