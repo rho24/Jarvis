@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cal="http://www.caliburnproject.org"
         xmlns:local="clr-namespace:Jarvis.Client"
-        FocusManager.FocusedElement="{Binding ElementName=UserInput}">
+        FocusManager.FocusedElement="{Binding ElementName=UserInput}"
+        WindowState="{Binding Path=WinState}">
     <DockPanel VerticalAlignment="Top" LastChildFill="True">
         <TextBox DockPanel.Dock="Top" x:Name="UserInput">
             <i:Interaction.Triggers>
@@ -12,6 +13,12 @@
                         <KeyBinding Key="Up" />
                     </local:InputBindingTrigger.InputBinding>
                     <cal:ActionMessage MethodName="UpInput" />
+                </local:InputBindingTrigger>
+                <local:InputBindingTrigger>
+                    <local:InputBindingTrigger.InputBinding>
+                        <KeyBinding Key="Escape" />
+                    </local:InputBindingTrigger.InputBinding>
+                    <cal:ActionMessage MethodName="HideWindow" />
                 </local:InputBindingTrigger>
                 <local:InputBindingTrigger>
                     <local:InputBindingTrigger.InputBinding>

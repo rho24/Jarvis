@@ -5,8 +5,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Windows;
+using System.Windows.Forms;
 using Caliburn.Micro;
 using Jarvis.Core;
+using ManagedWinapi;
 
 namespace Jarvis.Client
 {
@@ -16,6 +19,7 @@ namespace Jarvis.Client
         private IEnumerable<IItem> _results;
         private int _resultsSelectedInput;
         private string _text;
+        private WindowState _winState = WindowState.Normal;
 
         public string UserInput {
             get { return _text; }
@@ -44,17 +48,49 @@ namespace Jarvis.Client
             }
         }
 
+        public WindowState WinState {
+            get { return _winState; }
+            set {
+                if (value == _winState) return;
+                _winState = value;
+                NotifyOfPropertyChange(() => WinState);
+            }
+        }
+
         public ShellViewModel(IJarvisService jarvis) {
             _jarvis = jarvis;
-            
+
+            InitialiseSearch();
+
+            InitializeGlobalHotkey();
+        }
+
+        private void InitializeGlobalHotkey() {
+            var hotkey = new Hotkey {Ctrl = true, KeyCode = Keys.Space};
+
+            Observable.FromEventPattern(hotkey, "HotkeyPressed")
+                      .Subscribe(k => ToggleVisibility());
+
+            hotkey.Enabled = true;
+        }
+
+        public void HideWindow() {
+            WinState = WindowState.Minimized;
+        }
+
+        public void ToggleVisibility() {
+            WinState = WinState == WindowState.Normal ? WindowState.Minimized : WindowState.Normal;
+        }
+
+        private void InitialiseSearch() {
             Observable.FromEventPattern<PropertyChangedEventArgs>(this, "PropertyChanged")
-                .Where(e => e.EventArgs.PropertyName == "UserInput")
-                .Select(e => UserInput)
-                .DistinctUntilChanged()
-                .StartWith("")
-                .ObserveOn(TaskPoolScheduler.Default)
-                .Select(s => _jarvis.Items(s).Fetch())
-                .Subscribe(r => Results = r);
+                      .Where(e => e.EventArgs.PropertyName == "UserInput")
+                      .Select(e => UserInput)
+                      .DistinctUntilChanged()
+                      .StartWith("")
+                      .ObserveOn(TaskPoolScheduler.Default)
+                      .Select(s => _jarvis.Items(s).Fetch())
+                      .Subscribe(r => Results = r);
         }
 
         public void UpInput() {
