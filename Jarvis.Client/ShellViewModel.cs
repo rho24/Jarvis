@@ -18,7 +18,7 @@ namespace Jarvis.Client
     {
         private readonly IJarvisService _jarvis;
         private readonly Application _application;
-        private IEnumerable<IItem> _results;
+        private IEnumerable<IOption> _results;
         private int _resultsSelectedInput;
         private string _text;
         private WindowState _winState = WindowState.Minimized;
@@ -32,7 +32,7 @@ namespace Jarvis.Client
             }
         }
 
-        public IEnumerable<IItem> Results {
+        public IEnumerable<IOption> Results {
             get { return _results; }
             set {
                 if (Equals(value, _results)) return;
@@ -96,7 +96,7 @@ namespace Jarvis.Client
                       .DistinctUntilChanged()
                       .StartWith("")
                       .ObserveOn(TaskPoolScheduler.Default)
-                      .Select(s => _jarvis.Items(s))
+                      .Select(s => _jarvis.GetOptions(s))
                       .Subscribe(r => Results = r);
         }
 
@@ -109,7 +109,7 @@ namespace Jarvis.Client
         }
 
         public void EnterInput() {
-            var selectedFile = Results.Skip(Math.Max(0, ResultsSelectedInput)).FirstOrDefault() as FileItem;
+            var selectedFile = Results.Skip(Math.Max(0, ResultsSelectedInput)).FirstOrDefault() as FileOption;
             if (selectedFile == null)
                 return;
 

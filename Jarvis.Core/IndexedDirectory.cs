@@ -9,6 +9,6 @@ namespace Jarvis.Core
 
         public DateTime Created { get; set; }
 
-        public IEnumerable<FileItem> Files { get; set; }
+        public IEnumerable<FileOption> Files { get; set; }
     }
 }

@@ -123,8 +123,8 @@
   <ItemGroup>
     <Compile Include="DirectorySource.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="FileItem.cs" />
-    <Compile Include="IItem.cs" />
+    <Compile Include="FileOption.cs" />
+    <Compile Include="IOption.cs" />
     <Compile Include="IJarvisService.cs" />
     <Compile Include="IJarvisServiceSettings.cs" />
     <Compile Include="IndexedDirectory.cs" />

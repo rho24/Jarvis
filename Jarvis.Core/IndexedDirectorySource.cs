@@ -29,16 +29,16 @@ namespace Jarvis.Core
             get { return "Indexed Directory: {0}".Fmt(_path); }
         }
 
-        public IEnumerable<IItem> GetItems(string term) {
+        public IEnumerable<IOption> GetOptions(string term) {
             using (var session = _documentStore.OpenSession()) {
-                var items = session.Query<FileItem>("items").Where(f => f.Name.StartsWith(term)).AsProjection<FileItem>().Fetch();
+                var items = session.Query<FileOption>("items").Where(f => f.Name.StartsWith(term)).AsProjection<FileOption>().Fetch();
                 return items;
             }
         }
 
         private void CreateItemsIndex() {
             _documentStore.DatabaseCommands.PutIndex("items",
-                                                     new IndexDefinitionBuilder<IndexedDirectory, FileItem> {
+                                                     new IndexDefinitionBuilder<IndexedDirectory, FileOption> {
                                                          Map = dirs => from d in dirs
                                                                        from f in d.Files
                                                                        select new {f.Name, f.FullPath},
@@ -58,7 +58,7 @@ namespace Jarvis.Core
                 var directory = session.Query<IndexedDirectory>().SingleOrDefault(d => d.Path == _path) ?? new IndexedDirectory {Path = _path, Created = DateTime.UtcNow};
 
                 directory.Files = _dir.EnumerateFiles("*.lnk", SearchOption.AllDirectories)
-                    .Select(f => new FileItem {Name = Path.GetFileNameWithoutExtension(f.Name), FullPath = f.FullName}).ToList();
+                    .Select(f => new FileOption {Name = Path.GetFileNameWithoutExtension(f.Name), FullPath = f.FullName}).ToList();
 
                 session.Store(directory);
                 session.SaveChanges();
@@ -66,7 +66,7 @@ namespace Jarvis.Core
         }
     }
 
-    public class ItemsIndex : AbstractMultiMapIndexCreationTask<IItem>
+    public class ItemsIndex : AbstractMultiMapIndexCreationTask<IOption>
     {
         public ItemsIndex() {
             AddMap<IndexedDirectory>(dirs => from d in dirs

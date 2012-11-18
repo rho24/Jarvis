@@ -21,11 +21,11 @@ namespace Jarvis.Core
             Initialize();
         }
 
-        public IEnumerable<IItem> Items(string term) {
-            return Sources.SelectMany(s => s.GetItems(term)).Fetch();
+        public IEnumerable<IOption> GetOptions(string term) {
+            return _sources.SelectMany(s => s.GetOptions(term)).Fetch();
         }
 
-        public IEnumerable<ISource> Sources { get; private set; }
+        private IEnumerable<ISource> _sources;
         public string StudioUrl { get { return (_documentStore as EmbeddableDocumentStore).HttpServer.Configuration.ServerUrl; } }
 
         private void Initialize() {
@@ -35,7 +35,7 @@ namespace Jarvis.Core
                 Settings = session.Query<JarvisServiceSettings>()
                     .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).Single();
 
-                Sources = session.Query<IndexedDirectory>()
+                _sources = session.Query<IndexedDirectory>()
                     .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite())
                     .Fetch()
                     .Select(d => _container.Resolve<IndexedDirectorySource>(new NamedParameter("path", d.Path)))

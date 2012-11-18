@@ -1,6 +1,6 @@
 namespace Jarvis.Core
 {
-    public interface IItem
+    public interface IOption
     {
         string Name { get; }
     }
