@@ -6,5 +6,6 @@ namespace Jarvis.Core
     {
         IEnumerable<IOption> GetOptions(string term);
         string StudioUrl { get; }
+        IEnumerable<IOption> GetSubOptions(IOption option);
     }
 }

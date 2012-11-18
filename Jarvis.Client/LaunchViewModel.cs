@@ -12,8 +12,8 @@ namespace Jarvis.Client
 {
     public class LaunchViewModel : Screen
     {
-        private readonly IJarvisService _jarvis;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IJarvisService _jarvis;
         private IEnumerable<IOption> _results;
         private int _resultsSelectedInput;
         private string _text;
@@ -45,6 +45,10 @@ namespace Jarvis.Client
             }
         }
 
+        private IOption SelectedOption {
+            get { return Results.Skip(Math.Max(0, ResultsSelectedInput)).FirstOrDefault(); }
+        }
+
         public LaunchViewModel(IJarvisService jarvis, IEventAggregator eventAggregator) {
             _jarvis = jarvis;
             _eventAggregator = eventAggregator;
@@ -72,12 +76,12 @@ namespace Jarvis.Client
         }
 
         public void EnterInput() {
-            var selectedFile = Results.Skip(Math.Max(0, ResultsSelectedInput)).FirstOrDefault() as FileOption;
-            if (selectedFile == null)
-                return;
+            var executableOption = SelectedOption as IHasDefaultAction;
 
-            var executer = new ProcessStarter(selectedFile.FullPath);
-            executer.Execute();
+            if (executableOption != null) {
+                executableOption.Execute();
+                CloseWindow();
+            }
         }
 
         public void OpenDbStudio() {
@@ -86,6 +90,14 @@ namespace Jarvis.Client
 
         public void CloseWindow() {
             _eventAggregator.Publish(new CloseLaunchWindowEvent());
+        }
+
+        public void CloseJarvis() {
+            _eventAggregator.Publish(new CloseJarvisEvent());
+        }
+
+        public void SelectSubOption() {
+            Results = _jarvis.GetSubOptions(SelectedOption);
         }
     }
 }

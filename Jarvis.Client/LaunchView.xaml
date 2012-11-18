@@ -29,7 +29,7 @@
                     <local:InputBindingTrigger.InputBinding>
                         <KeyBinding Key="Q" Modifiers="Control" />
                     </local:InputBindingTrigger.InputBinding>
-                    <cal:ActionMessage MethodName="Close" />
+                    <cal:ActionMessage MethodName="CloseJarvis" />
                 </local:InputBindingTrigger>
                 <local:InputBindingTrigger>
                     <local:InputBindingTrigger.InputBinding>
@@ -42,6 +42,12 @@
                         <KeyBinding Key="Enter" />
                     </local:InputBindingTrigger.InputBinding>
                     <cal:ActionMessage MethodName="EnterInput" />
+                </local:InputBindingTrigger>
+                <local:InputBindingTrigger>
+                    <local:InputBindingTrigger.InputBinding>
+                        <KeyBinding Key="Tab" />
+                    </local:InputBindingTrigger.InputBinding>
+                    <cal:ActionMessage MethodName="SelectSubOption" />
                 </local:InputBindingTrigger>
             </i:Interaction.Triggers>
         </TextBox>

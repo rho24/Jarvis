@@ -158,6 +158,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CloseJarvisEvent.cs" />
     <Compile Include="CloseLaunchWindowEvent.cs" />
     <Compile Include="GlobalInputBindingTrigger.cs" />
     <Compile Include="InputBindingTrigger.cs" />

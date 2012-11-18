@@ -8,7 +8,7 @@ using Application = System.Windows.Application;
 
 namespace Jarvis.Client
 {
-    public class ShellViewModel : Conductor<LaunchViewModel>, IShell, IHandle<CloseLaunchWindowEvent>
+    public class ShellViewModel : Conductor<LaunchViewModel>, IShell, IHandle<CloseLaunchWindowEvent>, IHandle<CloseJarvisEvent>
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly LaunchViewModel _launchViewModel;
@@ -20,6 +20,10 @@ namespace Jarvis.Client
             _eventAggregator = eventAggregator;
         }
 
+        public void Handle(CloseJarvisEvent message) {
+            Shutdown();
+        }
+
         public void Handle(CloseLaunchWindowEvent message) {
             CloseLaunchWindow();
         }
@@ -27,13 +31,13 @@ namespace Jarvis.Client
         protected override void OnInitialize() {
             _eventAggregator.Subscribe(this);
 
-            var icon = new NotifyIcon {Text = "Jarvis", Visible = true, Icon = new Icon("SysTray.ico"), ContextMenu = new ContextMenu(new[] {new MenuItem("Close", Shutdown)})};
+            var icon = new NotifyIcon {Text = "Jarvis", Visible = true, Icon = new Icon("SysTray.ico"), ContextMenu = new ContextMenu(new[] {new MenuItem("Close", (s, e) => Shutdown())})};
 
             InitializeGlobalHotkey();
             base.OnInitialize();
         }
-
-        private void Shutdown(object sender, EventArgs e) {
+        
+        private void Shutdown() {
             Application.Current.Shutdown();
         }
 

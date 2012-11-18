@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Autofac;
 using Raven.Client;
 using Raven.Client.Embedded;
@@ -12,10 +13,13 @@ namespace Jarvis.Core
     {
         private readonly IContainer _container;
         private readonly IDocumentStore _documentStore;
+        private readonly IEnumerable<ISubOptionProvider> _subOptionProvides;
+        private IEnumerable<ISource> _sources;
         public IJarvisServiceSettings Settings { get; set; }
 
         public JarvisService() {
             _container = BuildContainer();
+            _subOptionProvides = _container.Resolve<IEnumerable<ISubOptionProvider>>();
             _documentStore = _container.Resolve<IDocumentStore>();
 
             Initialize();
@@ -25,21 +29,26 @@ namespace Jarvis.Core
             return _sources.SelectMany(s => s.GetOptions(term)).Fetch();
         }
 
-        private IEnumerable<ISource> _sources;
-        public string StudioUrl { get { return (_documentStore as EmbeddableDocumentStore).HttpServer.Configuration.ServerUrl; } }
+        public string StudioUrl {
+            get { return (_documentStore as EmbeddableDocumentStore).HttpServer.Configuration.ServerUrl; }
+        }
+
+        public IEnumerable<IOption> GetSubOptions(IOption option) {
+            return _subOptionProvides.Where(p => p.CanSupport(option)).Select(p => p.CreateSubOption(option)).Fetch();
+        }
 
         private void Initialize() {
             FirstTimeSetup();
 
             using (var session = _documentStore.OpenSession()) {
                 Settings = session.Query<JarvisServiceSettings>()
-                    .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).Single();
+                                  .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).Single();
 
                 _sources = session.Query<IndexedDirectory>()
-                    .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite())
-                    .Fetch()
-                    .Select(d => _container.Resolve<IndexedDirectorySource>(new NamedParameter("path", d.Path)))
-                    .Fetch();
+                                  .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite())
+                                  .Fetch()
+                                  .Select(d => _container.Resolve<IndexedDirectorySource>(new NamedParameter("path", d.Path)))
+                                  .Fetch();
             }
         }
 
@@ -72,12 +81,14 @@ namespace Jarvis.Core
             builder.RegisterInstance(store).As<IDocumentStore>();
 
             builder.Register(c => c.Resolve<IDocumentStore>().OpenSession())
-                .As<IDocumentSession>()
-                .OnRelease(d => d.Dispose());
+                   .As<IDocumentSession>()
+                   .OnRelease(d => d.Dispose());
 
             builder.RegisterType<SynchronousScheduler>().As<IScheduler>().SingleInstance();
 
             builder.RegisterType<IndexedDirectorySource>().AsSelf();
+
+            builder.RegisterAssemblyTypes(Assembly.GetCallingAssembly()).AssignableTo<ISubOptionProvider>().AsImplementedInterfaces();
 
             return builder.Build();
         }
