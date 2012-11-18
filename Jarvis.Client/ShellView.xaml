@@ -1,62 +1,6 @@
 ﻿<Window x:Class="Jarvis.Client.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cal="http://www.caliburnproject.org"
-        xmlns:local="clr-namespace:Jarvis.Client"
-        FocusManager.FocusedElement="{Binding ElementName=UserInput}"
-        WindowState="{Binding Path=WinState}"
-        WindowStyle="None"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
-        ShowInTaskbar="False"
-        Height="270"
-        Width="345">
-    <DockPanel VerticalAlignment="Top" LastChildFill="True">
-        <TextBox DockPanel.Dock="Top" x:Name="UserInput">
-            <i:Interaction.Triggers>
-                <local:InputBindingTrigger>
-                    <local:InputBindingTrigger.InputBinding>
-                        <KeyBinding Key="Up" />
-                    </local:InputBindingTrigger.InputBinding>
-                    <cal:ActionMessage MethodName="UpInput" />
-                </local:InputBindingTrigger>
-                <local:InputBindingTrigger>
-                    <local:InputBindingTrigger.InputBinding>
-                        <KeyBinding Key="Escape" />
-                    </local:InputBindingTrigger.InputBinding>
-                    <cal:ActionMessage MethodName="HideWindow" />
-                </local:InputBindingTrigger>
-                <local:InputBindingTrigger>
-                    <local:InputBindingTrigger.InputBinding>
-                        <KeyBinding Key="Q" Modifiers="Control" />
-                    </local:InputBindingTrigger.InputBinding>
-                    <cal:ActionMessage MethodName="Close" />
-                </local:InputBindingTrigger>
-                <local:InputBindingTrigger>
-                    <local:InputBindingTrigger.InputBinding>
-                        <KeyBinding Key="Down" />
-                    </local:InputBindingTrigger.InputBinding>
-                    <cal:ActionMessage MethodName="DownInput" />
-                </local:InputBindingTrigger>
-                <local:InputBindingTrigger>
-                    <local:InputBindingTrigger.InputBinding>
-                        <KeyBinding Key="Enter" />
-                    </local:InputBindingTrigger.InputBinding>
-                    <cal:ActionMessage MethodName="EnterInput" />
-                </local:InputBindingTrigger>
-            </i:Interaction.Triggers>
-        </TextBox>
-        <Button DockPanel.Dock="Bottom" x:Name="OpenDbStudio">
-            Raven Studio
-        </Button>
-        <ScrollViewer>
-            <ListBox x:Name="Results" SelectedIndex="{Binding ResultsSelectedInput}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </ScrollViewer>
-    </DockPanel>
+        Visibility="Hidden">
+    
 </Window>
