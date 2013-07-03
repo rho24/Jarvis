@@ -12,16 +12,16 @@ namespace Jarvis.Client
 {
     public class LaunchViewModel : Screen
     {
-        private readonly IEventAggregator _eventAggregator;
-        private readonly IJarvisService _jarvis;
-        private IEnumerable<IOption> _results;
-        private int _resultsSelectedInput;
-        private string _text;
+        readonly IEventAggregator _eventAggregator;
+        readonly IJarvisService _jarvis;
+        IEnumerable<IOption> _results;
+        int _resultsSelectedInput;
+        string _text;
 
         public string UserInput {
             get { return _text; }
             set {
-                if (value == _text) return;
+                if(value == _text) return;
                 _text = value;
                 NotifyOfPropertyChange(() => UserInput);
             }
@@ -30,7 +30,7 @@ namespace Jarvis.Client
         public IEnumerable<IOption> Results {
             get { return _results; }
             set {
-                if (Equals(value, _results)) return;
+                if(Equals(value, _results)) return;
                 _results = value;
                 NotifyOfPropertyChange(() => Results);
             }
@@ -39,15 +39,20 @@ namespace Jarvis.Client
         public int ResultsSelectedInput {
             get { return _resultsSelectedInput; }
             set {
-                if (value == _resultsSelectedInput) return;
+                if(value == _resultsSelectedInput) return;
                 _resultsSelectedInput = value;
                 NotifyOfPropertyChange(() => ResultsSelectedInput);
             }
         }
 
-        private IOption SelectedOption {
+        IOption SelectedOption {
             get { return Results.Skip(Math.Max(0, ResultsSelectedInput)).FirstOrDefault(); }
         }
+
+        public string UserInputSelectedText { get; set; }
+        public int UserInputSelectionLength { get; set; }
+
+        public int UserInputSelectionStart { get; set; }
 
         public LaunchViewModel(IJarvisService jarvis, IEventAggregator eventAggregator) {
             _jarvis = jarvis;
@@ -56,15 +61,15 @@ namespace Jarvis.Client
             InitialiseSearch();
         }
 
-        private void InitialiseSearch() {
+        void InitialiseSearch() {
             Observable.FromEventPattern<PropertyChangedEventArgs>(this, "PropertyChanged")
-                      .Where(e => e.EventArgs.PropertyName == "UserInput")
-                      .Select(e => UserInput)
-                      .DistinctUntilChanged()
-                      .StartWith("")
-                      .ObserveOn(TaskPoolScheduler.Default)
-                      .Select(s => _jarvis.GetOptions(s))
-                      .Subscribe(r => Results = r);
+                .Where(e => e.EventArgs.PropertyName == "UserInput")
+                .Select(e => UserInput)
+                .DistinctUntilChanged()
+                .StartWith("")
+                .ObserveOn(TaskPoolScheduler.Default)
+                .Select(s => _jarvis.GetOptions(s))
+                .Subscribe(r => Results = r);
         }
 
         public void UpInput() {
@@ -76,12 +81,8 @@ namespace Jarvis.Client
         }
 
         public void EnterInput() {
-            var executableOption = SelectedOption as IHasDefaultAction;
-
-            if (executableOption != null) {
-                executableOption.Execute();
+            if(_jarvis.ExecuteOption(SelectedOption))
                 CloseWindow();
-            }
         }
 
         public void OpenDbStudio() {
@@ -98,6 +99,13 @@ namespace Jarvis.Client
 
         public void SelectSubOption() {
             Results = _jarvis.GetSubOptions(SelectedOption);
+        }
+
+        protected override void OnActivate() {
+            if(UserInput != null) {
+                UserInputSelectionStart = 0;
+                UserInputSelectionLength = UserInput.Length;
+            }
         }
     }
 }

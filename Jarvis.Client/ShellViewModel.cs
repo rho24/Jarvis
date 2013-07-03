@@ -42,7 +42,7 @@ namespace Jarvis.Client
         }
 
         private void InitializeGlobalHotkey() {
-            var hotkey = new Hotkey {Ctrl = true, KeyCode = Keys.Space};
+            var hotkey = new Hotkey {Alt = true, KeyCode = Keys.Space};
 
             Observable.FromEventPattern(hotkey, "HotkeyPressed")
                       .Subscribe(k => ToggleLaunchWindow());

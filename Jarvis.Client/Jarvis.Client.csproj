@@ -167,6 +167,7 @@
     </Compile>
     <Compile Include="LaunchViewModel.cs" />
     <Compile Include="ShellViewModel.cs" />
+    <Compile Include="TextBoxHelper.cs" />
     <Page Include="ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

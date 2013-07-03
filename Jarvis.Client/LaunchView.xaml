@@ -11,7 +11,9 @@
         Height="270"
         Width="345">
     <DockPanel VerticalAlignment="Top" LastChildFill="True">
-        <TextBox DockPanel.Dock="Top" x:Name="UserInput">
+        <TextBox DockPanel.Dock="Top" x:Name="UserInput"
+                 local:TextBoxHelper.SelectionStart="{Binding UserInputSelectionStart}"
+                 local:TextBoxHelper.SelectionLength="{Binding UserInputSelectionLength}">
             <i:Interaction.Triggers>
                 <local:InputBindingTrigger>
                     <local:InputBindingTrigger.InputBinding>

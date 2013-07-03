@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Jarvis.Core
 {
     public interface IJarvisService
     {
-        IEnumerable<IOption> GetOptions(string term);
         string StudioUrl { get; }
+
+        IEnumerable<IOption> GetOptions(string term);
         IEnumerable<IOption> GetSubOptions(IOption option);
+        bool ExecuteOption(IOption option);
     }
 }
