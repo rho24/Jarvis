@@ -2,6 +2,7 @@ namespace Jarvis.Core
 {
     public class FileOption : IOption, IHasDefaultAction
     {
+        public string DirectoryPath { get; set; }
         public string Name { get; set; }
         public string FullPath { get; set; }
 

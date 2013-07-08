@@ -31,7 +31,7 @@ namespace Jarvis.Core
 
         public IEnumerable<IOption> GetOptions(string term) {
             using (var session = _documentStore.OpenSession()) {
-                var items = session.Query<FileOption>("items").Where(f => f.Name.StartsWith(term)).AsProjection<FileOption>().Fetch();
+                var items = session.Query<FileOption>("items").Where(f => f.DirectoryPath == _path && f.Name.StartsWith(term)).AsProjection<FileOption>().Distinct().Fetch();
                 return items;
             }
         }
@@ -41,8 +41,9 @@ namespace Jarvis.Core
                                                      new IndexDefinitionBuilder<IndexedDirectory, FileOption> {
                                                          Map = dirs => from d in dirs
                                                                        from f in d.Files
-                                                                       select new {f.Name, f.FullPath},
+                                                                       select new { DirectoryPath = d.Path, f.Name, f.FullPath },
                                                          Indexes = {
+                                                             {x => x.DirectoryPath, FieldIndexing.Default},
                                                              {x => x.Name, FieldIndexing.Analyzed}
                                                          },
                                                          Stores = {

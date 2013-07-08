@@ -59,6 +59,7 @@ namespace Jarvis.Core
             FirstTimeSetup();
 
             using (var session = _documentStore.OpenSession()) {
+                var temp = session.Query<JarvisServiceSettings>().Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).ToList();
                 Settings = session.Query<JarvisServiceSettings>().Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).Single();
 
                 _sources =
@@ -78,6 +79,7 @@ namespace Jarvis.Core
 
                 session.Store(new IndexedDirectory { Path = @"%AppData%\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar" });
                 session.Store(new IndexedDirectory { Path = @"~\Desktop" });
+                session.Store(new IndexedDirectory { Path = @"%programdata%\Microsoft\Windows\Start Menu\" });
 
                 session.SaveChanges();
             }
