@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Caliburn.Micro.Autofac;
 using Jarvis.Core;
+using NLog;
 
 namespace Jarvis.Client
 {
