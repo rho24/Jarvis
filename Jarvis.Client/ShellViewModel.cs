@@ -15,8 +15,11 @@ namespace Jarvis.Client
     {
         readonly IEventAggregator _eventAggregator;
         readonly LaunchViewModel _launchViewModel;
-        readonly IWindowManager _windowManager;
         readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        readonly IWindowManager _windowManager;
+        IDisposable _hotKeySubscriber;
+        Hotkey _hotkey;
+        NotifyIcon _icon;
 
         public ShellViewModel(LaunchViewModel launchViewModel, IWindowManager windowManager, IEventAggregator eventAggregator) {
             _launchViewModel = launchViewModel;
@@ -35,7 +38,18 @@ namespace Jarvis.Client
         protected override void OnInitialize() {
             _eventAggregator.Subscribe(this);
 
-            var icon = new NotifyIcon { Text = "Jarvis", Visible = true, Icon = new Icon("SysTray.ico"), ContextMenu = new ContextMenu(new[] { new MenuItem("Close", (s, e) => Shutdown()) }) };
+            _icon = new NotifyIcon {
+                Text = "Jarvis",
+                Visible = true,
+                Icon = new Icon("SysTray.ico"),
+                ContextMenu =
+                    new ContextMenu(
+                        new[] {
+                            new MenuItem("Open launcher", (s, e) => OpenLaunchWindow()), 
+                            new MenuItem("Initialize hotkey", (s, e) => InitializeGlobalHotkey()),
+                            new MenuItem("Close", (s, e) => Shutdown())
+                        })
+            };
 
             InitializeGlobalHotkey();
             base.OnInitialize();
@@ -46,13 +60,15 @@ namespace Jarvis.Client
         }
 
         void InitializeGlobalHotkey() {
-            var hotkey = new Hotkey { Alt = true, KeyCode = Keys.Space };
+            if(_hotKeySubscriber != null) _hotKeySubscriber.Dispose();
 
-            Observable.FromEventPattern(hotkey, "HotkeyPressed").Subscribe(k => ToggleLaunchWindow());
+            _hotkey = new Hotkey { Alt = true, KeyCode = Keys.Space };
 
-            hotkey.Enabled = true;
+            _hotKeySubscriber = Observable.FromEventPattern(_hotkey, "HotkeyPressed").Subscribe(k => ToggleLaunchWindow());
 
-            _logger.Debug("Hotkey.Enabled = '{0}'".Fmt(hotkey.Enabled));
+            _hotkey.Enabled = true;
+
+            _logger.Debug("Hotkey.Enabled = '{0}'".Fmt(_hotkey.Enabled));
         }
 
         void ToggleLaunchWindow() {
