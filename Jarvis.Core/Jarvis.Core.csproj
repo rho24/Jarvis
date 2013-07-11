@@ -83,6 +83,7 @@
     <Compile Include="OpenFileProvider.cs" />
     <Compile Include="ProcessStarter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="JarvisOptionsSource.cs" />
     <Compile Include="SynchronousScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
