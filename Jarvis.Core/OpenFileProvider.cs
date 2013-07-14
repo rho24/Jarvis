@@ -1,15 +1,17 @@
+using System.Collections.Generic;
+
 namespace Jarvis.Core
 {
-    internal class OpenFileProvider : ISubOptionProvider
+    internal class OpenFileProvider : ISubOptionsProvider
     {
         public bool CanSupport(IOption option) {
             return option is FileOption;
         }
 
-        public IOption CreateSubOption(IOption option) {
-            return new OpenFileOption((FileOption) option);
+        public IEnumerable<IOption> CreateSubOptions(IOption option) {
+            yield return new OpenFileOption((FileOption) option);
         }
-
+        
         #region Nested type: OpenFileOption
 
         private class OpenFileOption : IOption, IHasDefaultAction

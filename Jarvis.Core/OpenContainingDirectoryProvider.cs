@@ -1,21 +1,17 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Jarvis.Core
 {
-    public interface ISubOptionProvider
-    {
-        bool CanSupport(IOption option);
-        IOption CreateSubOption(IOption option);
-    }
-
-    internal class OpenContainingDirectoryProvider : ISubOptionProvider
+    internal class OpenContainingDirectoryProvider : ISubOptionsProvider
     {
         public bool CanSupport(IOption option) {
             return option is FileOption;
         }
 
-        public IOption CreateSubOption(IOption option) {
-            return new OpenContainingDirectoryOption((FileOption) option);
+        public IEnumerable<IOption> CreateSubOptions(IOption option) {
+            yield return new OpenContainingDirectoryOption((FileOption) option);
         }
 
         #region Nested type: OpenContainingDirectoryOption

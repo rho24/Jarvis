@@ -70,6 +70,8 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="FileOption.cs" />
     <Compile Include="IHasDefaultAction.cs" />
+    <Compile Include="JarvisModule.cs" />
+    <Compile Include="JarvisOptionsProvider.cs" />
     <Compile Include="IOption.cs" />
     <Compile Include="IJarvisService.cs" />
     <Compile Include="IJarvisServiceSettings.cs" />
@@ -77,9 +79,11 @@
     <Compile Include="IndexedDirectoriesSource.cs" />
     <Compile Include="IScheduler.cs" />
     <Compile Include="ISource.cs" />
-    <Compile Include="ISubOptionProvider.cs" />
+    <Compile Include="ISubOptionsProvider.cs" />
     <Compile Include="JarvisService.cs" />
     <Compile Include="JarvisServiceSettings.cs" />
+    <Compile Include="LambdaOption.cs" />
+    <Compile Include="OpenContainingDirectoryProvider.cs" />
     <Compile Include="OpenFileProvider.cs" />
     <Compile Include="ProcessStarter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

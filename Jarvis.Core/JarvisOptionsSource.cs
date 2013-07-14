@@ -12,7 +12,7 @@ namespace Jarvis.Core
 
         public IEnumerable<IOption> GetOptions(string term) {
             if("jarvis".Contains(term.ToLowerInvariant()))
-                return new[] { new JarvisOption() };
+                return new[]{new JarvisOption()};
 
             return Enumerable.Empty<IOption>();
         }
@@ -25,5 +25,4 @@ namespace Jarvis.Core
             }
         }
     }
-
 }
