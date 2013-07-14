@@ -6,7 +6,6 @@
         FocusManager.FocusedElement="{Binding ElementName=UserInput}"
         WindowStyle="None"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
         ShowInTaskbar="False"
         Height="270"
         Width="345">

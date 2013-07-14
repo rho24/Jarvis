@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Drawing;
+using System.Dynamic;
 using System.Reactive.Linq;
+using System.Windows;
 using System.Windows.Forms;
 using Caliburn.Micro;
 using Jarvis.Core;
 using ManagedWinapi;
 using NLog;
+using Raven.Database.Config.Settings;
 using Application = System.Windows.Application;
 using LogManager = NLog.LogManager;
 
@@ -60,7 +63,10 @@ namespace Jarvis.Client
         }
 
         void InitializeGlobalHotkey() {
-            if(_hotKeySubscriber != null) _hotKeySubscriber.Dispose();
+            if(_hotKeySubscriber != null) {
+                _hotkey.Enabled = false;
+                _hotKeySubscriber.Dispose();
+            }
 
             _hotkey = new Hotkey { Alt = true, KeyCode = Keys.Space };
 
@@ -83,6 +89,7 @@ namespace Jarvis.Client
                 return;
 
             ActivateItem(_launchViewModel);
+
             _windowManager.ShowWindow(_launchViewModel);
         }
 

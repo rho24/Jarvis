@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using Jarvis.Core;
 
@@ -106,6 +107,15 @@ namespace Jarvis.Client
                 UserInputSelectionStart = 0;
                 UserInputSelectionLength = UserInput.Length;
             }
+        }
+
+        protected override void OnViewLoaded(object view) {
+            base.OnViewLoaded(view);
+
+            var window = (Window)GetView();
+            window.WindowStartupLocation = WindowStartupLocation.Manual;
+            window.Left = (SystemParameters.PrimaryScreenWidth / 2) - (window.ActualWidth / 2);
+            window.Top = (SystemParameters.PrimaryScreenHeight / 2) - (window.ActualHeight / 2);
         }
     }
 }
