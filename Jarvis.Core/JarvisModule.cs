@@ -24,7 +24,7 @@ namespace Jarvis.Core
             builder.RegisterType<JarvisOptionsSource>().AsSelf();
             builder.RegisterType<IndexedDirectorySource>().AsSelf();
 
-            builder.RegisterAssemblyTypes(Assembly.GetCallingAssembly()).AssignableTo<ISubOptionsProvider>().AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AssignableTo<ISubOptionsProvider>().AsImplementedInterfaces();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly()).AssignableTo<ISubOptionsProvider>().AsImplementedInterfaces();
         }
     }

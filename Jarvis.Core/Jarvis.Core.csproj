@@ -84,6 +84,7 @@
     <Compile Include="JarvisServiceSettings.cs" />
     <Compile Include="LambdaOption.cs" />
     <Compile Include="OpenContainingDirectoryProvider.cs" />
+    <Compile Include="OpenFileAsAdminProvider.cs" />
     <Compile Include="OpenFileProvider.cs" />
     <Compile Include="ProcessStarter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
