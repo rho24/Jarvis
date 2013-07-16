@@ -10,22 +10,23 @@ namespace Jarvis.Core
 {
     public class JarvisService : IJarvisService
     {
-        readonly IComponentContext _container;
-
         readonly IDocumentStore _documentStore;
 
-        readonly IEnumerable<ISubOptionsProvider> _subOptionProvides;
-
-        IEnumerable<ISource> _sources;
         readonly IEnumerable<IJarvisModule> _modules;
+        readonly IEnumerable<IScheduledJob> _scheduledJobs;
+        readonly IScheduler _scheduler;
+        readonly IEnumerable<ISource> _sources;
+        readonly IEnumerable<ISubOptionsProvider> _subOptionProvides;
 
         public IJarvisServiceSettings Settings { get; set; }
 
         public JarvisService(IComponentContext container) {
-            _container = container;
-            _modules = _container.Resolve<IEnumerable<IJarvisModule>>();
-            _subOptionProvides = _container.Resolve<IEnumerable<ISubOptionsProvider>>();
-            _documentStore = _container.Resolve<IDocumentStore>();
+            _modules = container.Resolve<IEnumerable<IJarvisModule>>();
+            _subOptionProvides = container.Resolve<IEnumerable<ISubOptionsProvider>>();
+            _documentStore = container.Resolve<IDocumentStore>();
+            _scheduler = container.Resolve<IScheduler>();
+            _scheduledJobs = container.Resolve<IEnumerable<IScheduledJob>>();
+            _sources = new ISource[] { container.Resolve<JarvisOptionsSource>(), container.Resolve<IndexedDirectoriesSource>() };
 
             Initialize();
         }
@@ -58,14 +59,11 @@ namespace Jarvis.Core
 
         void Initialize() {
             FirstTimeSetup();
+            using(var session = _documentStore.OpenSession()) Settings = session.Query<JarvisServiceSettings>().Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).Single();
 
             _modules.ForEach(m => m.Initialize());
 
-            using(var session = _documentStore.OpenSession()) {
-                Settings = session.Query<JarvisServiceSettings>().Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).Single();
-
-                _sources = new ISource[] { _container.Resolve<JarvisOptionsSource>(), _container.Resolve<IndexedDirectoriesSource>() };
-            }
+            _scheduler.Initialize(_scheduledJobs);
         }
 
         void FirstTimeSetup() {

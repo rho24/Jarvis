@@ -19,14 +19,16 @@ namespace Jarvis.Core
 
             builder.Register(c => c.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().OnRelease(d => d.Dispose());
 
-            builder.RegisterType<SynchronousScheduler>().As<IScheduler>().SingleInstance();
+            builder.RegisterType<SimpleScheduler>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<JarvisOptionsSource>().AsSelf();
             builder.RegisterType<IndexedDirectoriesSource>().AsSelf();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly())
-                .AssignableTo<IJarvisModule>().AsImplementedInterfaces()
-                .AssignableTo<ISubOptionsProvider>().AsImplementedInterfaces();
+                .AssignableTo<IJarvisModule>()
+                .AsImplementedInterfaces()
+                .AssignableTo<ISubOptionsProvider>()
+                .AsImplementedInterfaces();
         }
     }
 }

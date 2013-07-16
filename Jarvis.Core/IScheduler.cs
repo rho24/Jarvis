@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 
 namespace Jarvis.Core
 {
     public interface IScheduler
     {
-        void Immediate(Action action);
+        void Initialize(IEnumerable<IScheduledJob> jobs);
     }
 }
