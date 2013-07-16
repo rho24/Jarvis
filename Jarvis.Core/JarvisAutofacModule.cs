@@ -8,7 +8,7 @@ using Module = Autofac.Module;
 
 namespace Jarvis.Core
 {
-    public class JarvisModule : Module
+    public class JarvisAutofacModule : Module
     {
         protected override void Load(ContainerBuilder builder) {
             var databaseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jarvis");
@@ -22,10 +22,11 @@ namespace Jarvis.Core
             builder.RegisterType<SynchronousScheduler>().As<IScheduler>().SingleInstance();
 
             builder.RegisterType<JarvisOptionsSource>().AsSelf();
-            builder.RegisterType<IndexedDirectorySource>().AsSelf();
+            builder.RegisterType<IndexedDirectoriesSource>().AsSelf();
 
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AssignableTo<ISubOptionsProvider>().AsImplementedInterfaces();
-            builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly()).AssignableTo<ISubOptionsProvider>().AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly())
+                .AssignableTo<IJarvisModule>().AsImplementedInterfaces()
+                .AssignableTo<ISubOptionsProvider>().AsImplementedInterfaces();
         }
     }
 }

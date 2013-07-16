@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
+using Raven.Abstractions.Extensions;
 using Raven.Client;
 using Raven.Client.Embedded;
 
@@ -16,11 +17,13 @@ namespace Jarvis.Core
         readonly IEnumerable<ISubOptionsProvider> _subOptionProvides;
 
         IEnumerable<ISource> _sources;
+        readonly IEnumerable<IJarvisModule> _modules;
 
         public IJarvisServiceSettings Settings { get; set; }
 
         public JarvisService(IComponentContext container) {
             _container = container;
+            _modules = _container.Resolve<IEnumerable<IJarvisModule>>();
             _subOptionProvides = _container.Resolve<IEnumerable<ISubOptionsProvider>>();
             _documentStore = _container.Resolve<IDocumentStore>();
 
@@ -56,16 +59,12 @@ namespace Jarvis.Core
         void Initialize() {
             FirstTimeSetup();
 
+            _modules.ForEach(m => m.Initialize());
+
             using(var session = _documentStore.OpenSession()) {
                 Settings = session.Query<JarvisServiceSettings>().Customize(c => c.WaitForNonStaleResultsAsOfLastWrite()).Single();
 
-                _sources =
-                    new ISource[] { _container.Resolve<JarvisOptionsSource>() }.Concat(
-                        session.Query<IndexedDirectory>()
-                            .Customize(c => c.WaitForNonStaleResultsAsOfLastWrite())
-                            .Fetch()
-                            .Select(d => _container.Resolve<IndexedDirectorySource>(new NamedParameter("path", d.Path)))
-                            .Fetch());
+                _sources = new ISource[] { _container.Resolve<JarvisOptionsSource>(), _container.Resolve<IndexedDirectoriesSource>() };
             }
         }
 

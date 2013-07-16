@@ -20,7 +20,7 @@ namespace Jarvis.Client
         protected override void ConfigureContainer(ContainerBuilder builder) {
             builder.RegisterType<JarvisService>().As<IJarvisService>().SingleInstance();
             builder.RegisterType<LaunchViewModel>().AsSelf();
-            builder.RegisterModule<JarvisModule>();
+            builder.RegisterModule<JarvisAutofacModule>();
         }
     }
 }
