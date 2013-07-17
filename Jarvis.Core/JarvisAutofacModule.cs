@@ -13,7 +13,7 @@ namespace Jarvis.Core
         protected override void Load(ContainerBuilder builder) {
             var databaseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jarvis");
 
-            var store = new EmbeddableDocumentStore { DataDirectory = databaseDir, UseEmbeddedHttpServer = true }.Initialize();
+            var store = new EmbeddableDocumentStore { DataDirectory = databaseDir, UseEmbeddedHttpServer = true}.Initialize();
 
             builder.RegisterInstance(store).As<IDocumentStore>();
 
@@ -24,11 +24,21 @@ namespace Jarvis.Core
             builder.RegisterType<JarvisOptionsSource>().AsSelf();
             builder.RegisterType<IndexedDirectoriesSource>().AsSelf();
 
+
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly())
                 .AssignableTo<IJarvisModule>()
                 .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly())
                 .AssignableTo<ISubOptionsProvider>()
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly())
+                .AssignableTo<IScheduledJob>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
         }
     }
 }

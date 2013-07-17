@@ -17,14 +17,18 @@ namespace Jarvis.Core
         public void Execute() {
             Task[] tasks;
 
-            using(var session = _documentStore.OpenSession()) tasks = session.Query<IndexedDirectory>().Select(d => Task.Factory.StartNew(() => Index(d))).ToArray();
+            using(var session = _documentStore.OpenSession()) {
+                var directories = session.Query<IndexedDirectory>().ToList();
+                tasks = directories.Select(d => Task.Factory.StartNew(() => Index(d.Id))).ToArray();
+            }
 
             Task.WaitAll(tasks);
         }
 
-        void Index(IndexedDirectory indexedDirectory) {
+        void Index(int id) {
             using(var session = _documentStore.OpenSession()) {
-                var directory = session.Query<IndexedDirectory>().Single(d => d.Path == indexedDirectory.Path);
+
+                var directory = session.Load<IndexedDirectory>(id);
 
                 var dir = new DirectoryInfo(directory.Path.ResolvePathAliases());
 
