@@ -86,6 +86,8 @@
     <Compile Include="Extensibility\IScheduledJob.cs" />
     <Compile Include="Extensibility\ISource.cs" />
     <Compile Include="Extensibility\ISubOptionsProvider.cs" />
+    <Compile Include="GmailModule.cs" />
+    <Compile Include="GmailModuleConfig.cs" />
     <Compile Include="IndexedDirectories\IndexDirectoriesJob.cs" />
     <Compile Include="IndexedDirectories\IndexedDirectoriesModule.cs" />
     <Compile Include="IndexedDirectories\IndexedDirectoriesSource.cs" />
