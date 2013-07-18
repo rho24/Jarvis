@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Jarvis.Core.Extensibility;
+using Jarvis.Core.Options;
 
 namespace Jarvis.Core
 {

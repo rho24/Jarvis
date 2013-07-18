@@ -1,4 +1,6 @@
-namespace Jarvis.Core
+using System;
+
+namespace Jarvis.Core.Options
 {
     public interface IOption
     {

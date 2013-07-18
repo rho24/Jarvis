@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Jarvis.Core;
+using Jarvis.Core.Options;
 
 namespace Jarvis.Client
 {

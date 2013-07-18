@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Jarvis.Core.Extensibility;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.Infrastructure
 {
     public interface IScheduler
     {

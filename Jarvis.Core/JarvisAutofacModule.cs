@@ -2,6 +2,9 @@
 using System.IO;
 using System.Reflection;
 using Autofac;
+using Jarvis.Core.Extensibility;
+using Jarvis.Core.IndexedDirectories;
+using Jarvis.Core.Infrastructure;
 using Raven.Client;
 using Raven.Client.Embedded;
 using Module = Autofac.Module;

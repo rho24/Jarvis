@@ -1,6 +1,7 @@
+using System;
 using System.Diagnostics;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.Infrastructure
 {
     public class ProcessStarter
     {

@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using Jarvis.Core.Extensibility;
+using Jarvis.Core.Infrastructure;
+using Jarvis.Core.Options;
 
 namespace Jarvis.Core
 {

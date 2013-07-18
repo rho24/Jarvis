@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.Infrastructure
 {
     public static class Extensions
     {

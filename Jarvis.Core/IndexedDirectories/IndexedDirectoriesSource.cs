@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Jarvis.Core.Extensibility;
+using Jarvis.Core.Infrastructure;
+using Jarvis.Core.Options;
 using Raven.Client;
 using Raven.Client.Linq;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.IndexedDirectories
 {
     public class IndexedDirectoriesSource : ISource
     {

@@ -1,4 +1,7 @@
-namespace Jarvis.Core
+using System;
+using Jarvis.Core.Infrastructure;
+
+namespace Jarvis.Core.Options
 {
     public class FileOption : IOption, IHasDefaultAction
     {

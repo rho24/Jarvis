@@ -82,33 +82,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DirectorySource.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="FileOption.cs" />
-    <Compile Include="IHasDefaultAction.cs" />
-    <Compile Include="IJarvisModule.cs" />
-    <Compile Include="IndexDirectoriesJob.cs" />
-    <Compile Include="IndexedDirectoriesModule.cs" />
-    <Compile Include="IScheduledJob.cs" />
+    <Compile Include="Extensibility\IJarvisModule.cs" />
+    <Compile Include="Extensibility\IScheduledJob.cs" />
+    <Compile Include="Extensibility\ISource.cs" />
+    <Compile Include="Extensibility\ISubOptionsProvider.cs" />
+    <Compile Include="IndexedDirectories\IndexDirectoriesJob.cs" />
+    <Compile Include="IndexedDirectories\IndexedDirectoriesModule.cs" />
+    <Compile Include="IndexedDirectories\IndexedDirectoriesSource.cs" />
+    <Compile Include="IndexedDirectories\IndexedDirectory.cs" />
+    <Compile Include="Infrastructure\Extensions.cs" />
+    <Compile Include="Infrastructure\IScheduler.cs" />
+    <Compile Include="Infrastructure\ProcessStarter.cs" />
+    <Compile Include="Infrastructure\SimpleScheduler.cs" />
     <Compile Include="JarvisAutofacModule.cs" />
     <Compile Include="JarvisOptionsProvider.cs" />
-    <Compile Include="IOption.cs" />
     <Compile Include="IJarvisService.cs" />
     <Compile Include="IJarvisServiceSettings.cs" />
-    <Compile Include="IndexedDirectory.cs" />
-    <Compile Include="IndexedDirectoriesSource.cs" />
-    <Compile Include="IScheduler.cs" />
-    <Compile Include="ISource.cs" />
-    <Compile Include="ISubOptionsProvider.cs" />
     <Compile Include="JarvisService.cs" />
     <Compile Include="JarvisServiceSettings.cs" />
-    <Compile Include="LambdaOption.cs" />
     <Compile Include="OpenContainingDirectoryProvider.cs" />
     <Compile Include="OpenFileAsAdminProvider.cs" />
     <Compile Include="OpenFileProvider.cs" />
-    <Compile Include="ProcessStarter.cs" />
+    <Compile Include="Options\FileOption.cs" />
+    <Compile Include="Options\IHasDefaultAction.cs" />
+    <Compile Include="Options\IOption.cs" />
+    <Compile Include="Options\LambdaOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JarvisOptionsSource.cs" />
-    <Compile Include="SimpleScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using Jarvis.Core.Extensibility;
+using Jarvis.Core.Options;
 using Raven.Abstractions.Indexing;
 using Raven.Client;
 using Raven.Client.Indexes;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.IndexedDirectories
 {
     public class IndexedDirectoriesModule : IJarvisModule
     {

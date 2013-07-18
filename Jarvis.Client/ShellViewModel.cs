@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Forms;
 using Caliburn.Micro;
 using Jarvis.Core;
+using Jarvis.Core.Infrastructure;
 using ManagedWinapi;
 using NLog;
 using Raven.Database.Config.Settings;

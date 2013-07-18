@@ -2,9 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Jarvis.Core.Extensibility;
+using Jarvis.Core.Infrastructure;
+using Jarvis.Core.Options;
 using Raven.Client;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.IndexedDirectories
 {
     public class IndexDirectoriesJob : IScheduledJob
     {

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
+using Jarvis.Core.Options;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.Extensibility
 {
     public interface ISubOptionsProvider
     {
