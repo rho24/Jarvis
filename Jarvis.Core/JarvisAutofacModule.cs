@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Autofac;
+using Autofac.Core;
+using Jarvis.Core.Events;
 using Jarvis.Core.Extensibility;
 using Jarvis.Core.IndexedDirectories;
 using Jarvis.Core.Infrastructure;
@@ -33,6 +36,8 @@ namespace Jarvis.Core
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly()).AssignableTo<IScheduledJob>().AsImplementedInterfaces().SingleInstance();
 
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly()).AsSelf();
+
             builder.Register(
                 c => {
                     var session = c.Resolve<IDocumentSession>();
@@ -44,6 +49,18 @@ namespace Jarvis.Core
                     }
                     return config;
                 });
+        }
+
+        protected override void AttachToComponentRegistration(IComponentRegistry registry, IComponentRegistration registration) {
+            registration.Activated += registration_Activated;
+        }
+
+        void registration_Activated(object sender, ActivatedEventArgs<object> e) {
+            if(e == null)
+                return;
+
+            if(e.Instance.GetType().GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IJarvisHandle<>)))
+                e.Context.Resolve<IJarvisEventAggregator>().Subscribe(e.Instance);
         }
     }
 }

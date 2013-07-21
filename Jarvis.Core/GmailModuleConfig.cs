@@ -8,10 +8,7 @@ namespace Jarvis.Core
             get { return "GmailModuleConfig"; }
         }
 
-        public string ConsumerKey { get; set; }
-        public string ConsumerSecret { get; set; }
-        public string TargetUser { get; set; }
-        public string Domain { get; set; }
-        public string SignatureMethod { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 }

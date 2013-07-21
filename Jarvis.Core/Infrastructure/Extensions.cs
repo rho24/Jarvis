@@ -17,7 +17,7 @@ namespace Jarvis.Core.Infrastructure
         }
 
         public static IEnumerable<T> Fetch<T>(this IEnumerable<T> items) {
-            return items.ToArray();
+            return items.ToList();
         }
     }
 }

@@ -62,6 +62,14 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -81,13 +89,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurrentUnreadEmails.cs" />
     <Compile Include="DirectorySource.cs" />
+    <Compile Include="Events\IJarvisEventAggregator.cs" />
+    <Compile Include="Events\IJarvisHandle.cs" />
     <Compile Include="Extensibility\IJarvisModule.cs" />
     <Compile Include="Extensibility\IScheduledJob.cs" />
     <Compile Include="Extensibility\ISource.cs" />
     <Compile Include="Extensibility\ISubOptionsProvider.cs" />
     <Compile Include="GmailModule.cs" />
     <Compile Include="GmailModuleConfig.cs" />
+    <Compile Include="GmailRetrieverJob.cs" />
     <Compile Include="IndexedDirectories\IndexDirectoriesJob.cs" />
     <Compile Include="IndexedDirectories\IndexedDirectoriesModule.cs" />
     <Compile Include="IndexedDirectories\IndexedDirectoriesSource.cs" />
@@ -117,6 +129,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Dynamic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -15,7 +16,7 @@ using LogManager = NLog.LogManager;
 
 namespace Jarvis.Client
 {
-    public class ShellViewModel : Conductor<LaunchViewModel>, IShell, IHandle<CloseLaunchWindowEvent>, IHandle<CloseJarvisEvent>
+    public class ShellViewModel : Conductor<LaunchViewModel>, IShell, IHandle<CloseLaunchWindowEvent>, IHandle<CloseJarvisEvent>, IHandle<CurrentUnreadEmails>
     {
         readonly IEventAggregator _eventAggregator;
         readonly LaunchViewModel _launchViewModel;
@@ -99,6 +100,11 @@ namespace Jarvis.Client
                 return;
 
             DeactivateItem(_launchViewModel, true);
+        }
+
+        public void Handle(CurrentUnreadEmails message) {
+            if(message.Emails.Any())
+                _icon.ShowBalloonTip(2000, "Emails!", "You have mail:)\n{0} to be exact".Fmt(message.Emails.Count()), ToolTipIcon.Info);
         }
     }
 }

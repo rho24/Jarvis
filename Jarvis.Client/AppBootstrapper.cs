@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Caliburn.Micro.Autofac;
 using Jarvis.Core;
+using Jarvis.Core.Events;
 using NLog;
 
 namespace Jarvis.Client
@@ -18,6 +19,7 @@ namespace Jarvis.Client
         }
 
         protected override void ConfigureContainer(ContainerBuilder builder) {
+            builder.RegisterType<JarvisEventAggregator>().As<IJarvisEventAggregator>().SingleInstance();
             builder.RegisterType<JarvisService>().As<IJarvisService>().SingleInstance();
             builder.RegisterType<LaunchViewModel>().AsSelf();
             builder.RegisterModule<JarvisAutofacModule>();

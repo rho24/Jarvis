@@ -126,6 +126,7 @@
     <Compile Include="GlobalInputBindingTrigger.cs" />
     <Compile Include="InputBindingTrigger.cs" />
     <Compile Include="JarvisClientOptionsProvider.cs" />
+    <Compile Include="JarvisEventAggregator.cs" />
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
