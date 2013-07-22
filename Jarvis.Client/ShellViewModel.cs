@@ -1,35 +1,32 @@
 ﻿using System;
 using System.Drawing;
-using System.Dynamic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Windows;
 using System.Windows.Forms;
 using Caliburn.Micro;
-using Jarvis.Core;
+using Jarvis.Core.Events;
 using Jarvis.Core.Infrastructure;
 using ManagedWinapi;
 using NLog;
-using Raven.Database.Config.Settings;
 using Application = System.Windows.Application;
 using LogManager = NLog.LogManager;
 
 namespace Jarvis.Client
 {
-    public class ShellViewModel : Conductor<LaunchViewModel>, IShell, IHandle<CloseLaunchWindowEvent>, IHandle<CloseJarvisEvent>, IHandle<CurrentUnreadEmails>
+    public class ShellViewModel : Conductor<LaunchViewModel>, IShell, IHandle<CloseLaunchWindowEvent>, IHandle<CloseJarvisEvent>
     {
-        readonly IEventAggregator _eventAggregator;
         readonly LaunchViewModel _launchViewModel;
         readonly Logger _logger = LogManager.GetCurrentClassLogger();
         readonly IWindowManager _windowManager;
+        readonly INotificationManager _notificationManager;
         IDisposable _hotKeySubscriber;
         Hotkey _hotkey;
         NotifyIcon _icon;
 
-        public ShellViewModel(LaunchViewModel launchViewModel, IWindowManager windowManager, IEventAggregator eventAggregator) {
+        public ShellViewModel(LaunchViewModel launchViewModel, IWindowManager windowManager, INotificationManager notificationManager) {
             _launchViewModel = launchViewModel;
             _windowManager = windowManager;
-            _eventAggregator = eventAggregator;
+            _notificationManager = notificationManager;
         }
 
         public void Handle(CloseJarvisEvent message) {
@@ -41,8 +38,6 @@ namespace Jarvis.Client
         }
 
         protected override void OnInitialize() {
-            _eventAggregator.Subscribe(this);
-
             _icon = new NotifyIcon {
                 Text = "Jarvis",
                 Visible = true,
@@ -50,11 +45,12 @@ namespace Jarvis.Client
                 ContextMenu =
                     new ContextMenu(
                         new[] {
-                            new MenuItem("Open launcher", (s, e) => OpenLaunchWindow()), 
-                            new MenuItem("Initialize hotkey", (s, e) => InitializeGlobalHotkey()),
+                            new MenuItem("Open launcher", (s, e) => OpenLaunchWindow()), new MenuItem("Initialize hotkey", (s, e) => InitializeGlobalHotkey()),
                             new MenuItem("Close", (s, e) => Shutdown())
                         })
             };
+
+            _notificationManager.Initialize(_icon);
 
             InitializeGlobalHotkey();
             base.OnInitialize();
@@ -100,11 +96,6 @@ namespace Jarvis.Client
                 return;
 
             DeactivateItem(_launchViewModel, true);
-        }
-
-        public void Handle(CurrentUnreadEmails message) {
-            if(message.Emails.Any())
-                _icon.ShowBalloonTip(2000, "Emails!", "You have mail:)\n{0} to be exact".Fmt(message.Emails.Count()), ToolTipIcon.Info);
         }
     }
 }

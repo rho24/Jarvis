@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.Gmail
 {
     public class GmailModuleConfig
     {

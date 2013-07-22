@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Mail;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.Events
 {
     public class CurrentUnreadEmails
     {

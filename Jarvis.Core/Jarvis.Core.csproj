@@ -89,22 +89,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurrentUnreadEmails.cs" />
     <Compile Include="DirectorySource.cs" />
-    <Compile Include="Events\IJarvisEventAggregator.cs" />
+    <Compile Include="Events\CurrentUnreadEmails.cs" />
     <Compile Include="Events\IJarvisHandle.cs" />
     <Compile Include="Extensibility\IJarvisModule.cs" />
     <Compile Include="Extensibility\IScheduledJob.cs" />
     <Compile Include="Extensibility\ISource.cs" />
     <Compile Include="Extensibility\ISubOptionsProvider.cs" />
-    <Compile Include="GmailModule.cs" />
-    <Compile Include="GmailModuleConfig.cs" />
-    <Compile Include="GmailRetrieverJob.cs" />
+    <Compile Include="Gmail\GmailModule.cs" />
+    <Compile Include="Gmail\GmailModuleConfig.cs" />
+    <Compile Include="Gmail\GmailOption.cs" />
+    <Compile Include="Gmail\GmailRetrieverJob.cs" />
     <Compile Include="IndexedDirectories\IndexDirectoriesJob.cs" />
     <Compile Include="IndexedDirectories\IndexedDirectoriesModule.cs" />
     <Compile Include="IndexedDirectories\IndexedDirectoriesSource.cs" />
     <Compile Include="IndexedDirectories\IndexedDirectory.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
+    <Compile Include="Infrastructure\IJarvisEventAggregator.cs" />
     <Compile Include="Infrastructure\IScheduler.cs" />
     <Compile Include="Infrastructure\ProcessStarter.cs" />
     <Compile Include="Infrastructure\SimpleScheduler.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="OpenContainingDirectoryProvider.cs" />
     <Compile Include="OpenFileAsAdminProvider.cs" />
     <Compile Include="OpenFileProvider.cs" />
+    <Compile Include="Options\ExecuteOptionMessage.cs" />
     <Compile Include="Options\FileOption.cs" />
     <Compile Include="Options\IHasDefaultAction.cs" />
     <Compile Include="Options\IOption.cs" />

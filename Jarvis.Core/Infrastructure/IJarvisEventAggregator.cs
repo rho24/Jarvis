@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jarvis.Core.Events
+namespace Jarvis.Core.Infrastructure
 {
     public interface IJarvisEventAggregator
     {

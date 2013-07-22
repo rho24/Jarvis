@@ -1,7 +1,7 @@
 ﻿using System;
 using Jarvis.Core.Extensibility;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.Gmail
 {
     public class GmailModule : IJarvisModule
     {

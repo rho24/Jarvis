@@ -8,7 +8,7 @@ using Jarvis.Core.Events;
 using Jarvis.Core.Extensibility;
 using Jarvis.Core.Infrastructure;
 
-namespace Jarvis.Core
+namespace Jarvis.Core.Gmail
 {
     public class GmailRetrieverJob : IScheduledJob
     {

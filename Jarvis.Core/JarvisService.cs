@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
+using Jarvis.Core.Events;
 using Jarvis.Core.Extensibility;
 using Jarvis.Core.IndexedDirectories;
 using Jarvis.Core.Infrastructure;
@@ -12,7 +13,7 @@ using Raven.Client.Embedded;
 
 namespace Jarvis.Core
 {
-    public class JarvisService : IJarvisService
+    public class JarvisService : IJarvisService, IJarvisHandle<ExecuteOptionMessage>
     {
         readonly IDocumentStore _documentStore;
 
@@ -82,6 +83,10 @@ namespace Jarvis.Core
 
                 session.SaveChanges();
             }
+        }
+
+        public void Handle(ExecuteOptionMessage message) {
+            ExecuteOption(message.Option);
         }
     }
 }

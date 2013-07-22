@@ -6,6 +6,7 @@ using Autofac;
 using Autofac.Core;
 using Jarvis.Core.Events;
 using Jarvis.Core.Extensibility;
+using Jarvis.Core.Gmail;
 using Jarvis.Core.IndexedDirectories;
 using Jarvis.Core.Infrastructure;
 using Raven.Client;
