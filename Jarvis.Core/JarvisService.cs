@@ -47,6 +47,9 @@ namespace Jarvis.Core
         }
 
         public IEnumerable<IOption> GetSubOptions(IOption option) {
+            if(option is ModuleOption)
+                return ((ModuleOption)option).Module.GetOptions("");
+
             return _subOptionProvides.Where(p => p.CanSupport(option)).SelectMany(p => p.CreateSubOptions(option)).Fetch();
         }
 
