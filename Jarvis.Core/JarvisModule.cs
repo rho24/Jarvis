@@ -6,10 +6,13 @@ using Jarvis.Core.Options;
 
 namespace Jarvis.Core
 {
-    public class JarvisOptionsSource : ISource
+    public class JarvisModule:IJarvisModule
     {
-        public string Description {
-            get { return "Jarvis options"; }
+        public string Name { get { return "Jarvis"; } }
+        public bool ShowModuleInRoot { get { return true; } }
+        public bool ShowOptionsInRoot { get { return false; } }
+
+        public void Initialize() {
         }
 
         public IEnumerable<IOption> GetOptions(string term) {

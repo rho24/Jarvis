@@ -20,7 +20,6 @@ namespace Jarvis.Core
         readonly IEnumerable<IJarvisModule> _modules;
         readonly IEnumerable<IScheduledJob> _scheduledJobs;
         readonly IScheduler _scheduler;
-        readonly IEnumerable<ISource> _sources;
         readonly IEnumerable<ISubOptionsProvider> _subOptionProvides;
 
         public IJarvisServiceSettings Settings { get; set; }
@@ -31,13 +30,13 @@ namespace Jarvis.Core
             _documentStore = container.Resolve<IDocumentStore>();
             _scheduler = container.Resolve<IScheduler>();
             _scheduledJobs = container.Resolve<IEnumerable<IScheduledJob>>();
-            _sources = new ISource[] { container.Resolve<JarvisOptionsSource>(), container.Resolve<IndexedDirectoriesSource>() };
 
             Initialize();
         }
 
         public IEnumerable<IOption> GetOptions(string term) {
-            return _sources.SelectMany(s => s.GetOptions(term)).Fetch();
+            return _modules.Where(m => m.ShowOptionsInRoot).SelectMany(m => m.GetOptions(term))
+                .Concat(_modules.Where(m => m.ShowModuleInRoot).Select(m => new ModuleOption(m)).FuzzySearch(term)).Fetch();
         }
 
         public string StudioUrl {

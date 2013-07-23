@@ -7,7 +7,6 @@ using Autofac.Core;
 using Jarvis.Core.Events;
 using Jarvis.Core.Extensibility;
 using Jarvis.Core.Gmail;
-using Jarvis.Core.IndexedDirectories;
 using Jarvis.Core.Infrastructure;
 using Raven.Client;
 using Raven.Client.Embedded;
@@ -27,10 +26,7 @@ namespace Jarvis.Core
             builder.Register(c => c.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().OnRelease(d => d.Dispose());
 
             builder.RegisterType<SimpleScheduler>().AsImplementedInterfaces().SingleInstance();
-
-            builder.RegisterType<JarvisOptionsSource>().AsSelf();
-            builder.RegisterType<IndexedDirectoriesSource>().AsSelf();
-
+            
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly()).AssignableTo<IJarvisModule>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly()).AssignableTo<ISubOptionsProvider>().AsImplementedInterfaces().SingleInstance();
