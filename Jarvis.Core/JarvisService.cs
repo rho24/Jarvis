@@ -34,9 +34,12 @@ namespace Jarvis.Core
             Initialize();
         }
 
+        public void Handle(ExecuteOptionMessage message) {
+            ExecuteOption(message.Option);
+        }
+        
         public IEnumerable<IOption> GetOptions(string term) {
-            return _modules.Where(m => m.ShowOptionsInRoot).SelectMany(m => m.GetOptions(term))
-                .Concat(_modules.Where(m => m.ShowModuleInRoot).Select(m => new ModuleOption(m)).FuzzySearch(term)).Fetch();
+            return _modules.Where(m => m.ShowOptionsInRoot).SelectMany(m => m.GetOptions(term));
         }
 
         public string StudioUrl {
@@ -85,10 +88,6 @@ namespace Jarvis.Core
 
                 session.SaveChanges();
             }
-        }
-
-        public void Handle(ExecuteOptionMessage message) {
-            ExecuteOption(message.Option);
         }
     }
 }

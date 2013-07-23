@@ -113,6 +113,7 @@
     <Compile Include="IJarvisServiceSettings.cs" />
     <Compile Include="JarvisService.cs" />
     <Compile Include="JarvisServiceSettings.cs" />
+    <Compile Include="Modules\ExposeModulesModule.cs" />
     <Compile Include="OpenContainingDirectoryProvider.cs" />
     <Compile Include="OpenFileAsAdminProvider.cs" />
     <Compile Include="OpenFileProvider.cs" />
