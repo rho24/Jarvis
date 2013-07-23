@@ -56,3 +56,6 @@ _ReSharper*/
 #Logs
 *.Log
 *.InstallLog
+
+*.sublime-project
+*.sublime-workspace
