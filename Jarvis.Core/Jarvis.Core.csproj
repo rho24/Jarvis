@@ -92,6 +92,7 @@
     <Compile Include="Events\CurrentUnreadEmails.cs" />
     <Compile Include="Events\IJarvisHandle.cs" />
     <Compile Include="Extensibility\IJarvisModule.cs" />
+    <Compile Include="Extensibility\IJarvisOptionsProvider.cs" />
     <Compile Include="Extensibility\IScheduledJob.cs" />
     <Compile Include="Extensibility\ISubOptionsProvider.cs" />
     <Compile Include="Gmail\GmailModule.cs" />
@@ -108,23 +109,21 @@
     <Compile Include="Infrastructure\ProcessStarter.cs" />
     <Compile Include="Infrastructure\SimpleScheduler.cs" />
     <Compile Include="JarvisAutofacModule.cs" />
-    <Compile Include="JarvisOptionsProvider.cs" />
     <Compile Include="IJarvisService.cs" />
     <Compile Include="IJarvisServiceSettings.cs" />
     <Compile Include="JarvisService.cs" />
     <Compile Include="JarvisServiceSettings.cs" />
     <Compile Include="Modules\ExposeModulesModule.cs" />
-    <Compile Include="OpenContainingDirectoryProvider.cs" />
-    <Compile Include="OpenFileAsAdminProvider.cs" />
-    <Compile Include="OpenFileProvider.cs" />
+    <Compile Include="Modules\JarvisModule.cs" />
+    <Compile Include="Modules\OpenContainingDirectoryModule.cs" />
+    <Compile Include="Modules\OpenFileAsAdminModule.cs" />
+    <Compile Include="Modules\OpenFileModule.cs" />
     <Compile Include="Options\ExecuteOptionMessage.cs" />
     <Compile Include="Options\FileOption.cs" />
     <Compile Include="Options\IHasDefaultAction.cs" />
     <Compile Include="Options\IOption.cs" />
     <Compile Include="Options\LambdaOption.cs" />
-    <Compile Include="Options\ModuleOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JarvisModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

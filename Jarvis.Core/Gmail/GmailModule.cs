@@ -31,8 +31,13 @@ namespace Jarvis.Core.Gmail
         }
 
         public void Initialize() {}
+        public IEnumerable<IOption> GetOptions(string term)
+        {
+            return Enumerable.Empty<IOption>();
+        }
 
-        public IEnumerable<IOption> GetOptions(string term) {
+        public IEnumerable<IOption> GetSubOptions(IOption selectedOption, string term)
+        {
             return Enumerable.Empty<IOption>();
         }
     }

@@ -46,5 +46,9 @@ namespace Jarvis.Core.IndexedDirectories
                 return items;
             }
         }
+
+        public IEnumerable<IOption> GetSubOptions(IOption selectedOption, string term) {
+            return Enumerable.Empty<IOption>();
+        }
     }
 }

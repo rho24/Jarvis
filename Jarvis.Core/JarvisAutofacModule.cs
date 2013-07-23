@@ -33,7 +33,7 @@ namespace Jarvis.Core
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly()).AssignableTo<IScheduledJob>().AsImplementedInterfaces().SingleInstance();
 
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly()).AssignableTo<JarvisOptionsProvider>().As<JarvisOptionsProvider>().SingleInstance();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly()).AssignableTo<IJarvisOptionsProvider>().As<IJarvisOptionsProvider>().SingleInstance();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly()).AsSelf();
 

@@ -12,5 +12,6 @@ namespace Jarvis.Core.Extensibility
 
         void Initialize();
         IEnumerable<IOption> GetOptions(string term);
+        IEnumerable<IOption> GetSubOptions(IOption selectedOption, string term);
     }
 }

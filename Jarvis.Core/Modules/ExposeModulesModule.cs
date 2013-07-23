@@ -10,6 +10,7 @@ namespace Jarvis.Core.Modules
     public class ExposeModulesModule : IJarvisModule
     {
         readonly Lazy<IEnumerable<IJarvisModule>> _modules;
+
         public ExposeModulesModule(Lazy<IEnumerable<IJarvisModule>> modules) {
             _modules = modules;
         }
@@ -26,11 +27,41 @@ namespace Jarvis.Core.Modules
             get { return true; }
         }
 
-        public void Initialize() {
-        }
+        public void Initialize() {}
 
         public IEnumerable<IOption> GetOptions(string term) {
             return _modules.Value.Where(m => m.ShowModuleInRoot).Select(m => new ModuleOption(m)).FuzzySearch(term).Fetch();
         }
+
+        public IEnumerable<IOption> GetSubOptions(IOption selectedOption, string term) {
+            var option = selectedOption as ModuleOption;
+            if(option == null) return Enumerable.Empty<IOption>();
+
+            if(option.Module == this)
+                return _modules.Value.Select(m => new ModuleOption(m)).FuzzySearch(term).Fetch();
+
+            return option.Module.GetOptions(term);
+        }
+
+        #region Nested type: ModuleOption
+
+        class ModuleOption : IOption
+        {
+            readonly IJarvisModule _module;
+
+            public IJarvisModule Module {
+                get { return _module; }
+            }
+
+            public ModuleOption(IJarvisModule module) {
+                _module = module;
+            }
+
+            public string Name {
+                get { return _module.Name; }
+            }
+        }
+
+        #endregion
     }
 }

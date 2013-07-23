@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using Caliburn.Micro;
 using Jarvis.Core;
+using Jarvis.Core.Extensibility;
 using Jarvis.Core.Options;
 
 namespace Jarvis.Client
 {
-    public class JarvisClientOptionsProvider : JarvisOptionsProvider
+    public class JarvisClientOptionsProvider : IJarvisOptionsProvider
     {
         readonly IEventAggregator _eventAggregator;
 
@@ -14,8 +15,7 @@ namespace Jarvis.Client
             _eventAggregator = eventAggregator;
         }
 
-        public override IEnumerable<IOption> CreateSubOptions(IOption option)
-        {
+        public IEnumerable<IOption> CreateSubOptions() {
             yield return new LambdaOption("Close Jarvis", () => _eventAggregator.Publish(new CloseJarvisEvent()));
         }
     }

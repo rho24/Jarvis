@@ -20,13 +20,11 @@ namespace Jarvis.Core
         readonly IEnumerable<IJarvisModule> _modules;
         readonly IEnumerable<IScheduledJob> _scheduledJobs;
         readonly IScheduler _scheduler;
-        readonly IEnumerable<ISubOptionsProvider> _subOptionProvides;
 
         public IJarvisServiceSettings Settings { get; set; }
 
         public JarvisService(IComponentContext container) {
             _modules = container.Resolve<IEnumerable<IJarvisModule>>();
-            _subOptionProvides = container.Resolve<IEnumerable<ISubOptionsProvider>>();
             _documentStore = container.Resolve<IDocumentStore>();
             _scheduler = container.Resolve<IScheduler>();
             _scheduledJobs = container.Resolve<IEnumerable<IScheduledJob>>();
@@ -50,10 +48,7 @@ namespace Jarvis.Core
         }
 
         public IEnumerable<IOption> GetSubOptions(IOption option) {
-            if(option is ModuleOption)
-                return ((ModuleOption)option).Module.GetOptions("");
-
-            return _subOptionProvides.Where(p => p.CanSupport(option)).SelectMany(p => p.CreateSubOptions(option)).Fetch();
+            return _modules.SelectMany(m => m.GetSubOptions(option, "")).Fetch();
         }
 
         public bool ExecuteOption(IOption option) {
